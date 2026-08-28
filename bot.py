@@ -1,13 +1,15 @@
 import discord
 import random
-import asyncio
-
 import os
 from dotenv import load_dotenv
 from discord.ext import commands
 
-# carregar token
-load_dotenv(dotenv_path="c:/Users/rbert/Documents/codigos_kodland/bot_1/token")
+# carregar token do arquivo .env deste projeto
+load_dotenv()
+token = os.getenv("DISCORD_TOKEN")
+
+if not token:
+    raise RuntimeError("A variável DISCORD_TOKEN não foi encontrada no arquivo .env")
 
 # intents
 intents = discord.Intents.default()
@@ -17,7 +19,7 @@ intents.members = True
 # criar bot
 bot = commands.Bot(command_prefix="$", intents=intents, help_command=None)
 
-from bot_logic import gen_pass, chamar, help_text
+from bot_logic import chamar, help_text
 from historias import historia_menu, historia_pybot
 from historia_reac import menu_historia
 
@@ -46,6 +48,7 @@ async def on_message(message):
 
     # importante para comandos funcionarem
     await bot.process_commands(message)
+
 
 @bot.command()
 async def hello(ctx):
@@ -134,6 +137,17 @@ async def historia(ctx):
         )
 
 
-print(gen_pass(10))
+@bot.command()
+async def check(ctx):
 
-bot.run(os.getenv("DISCORD_TOKEN"))
+    if ctx.message.attachments:
+        for attachment in ctx.message.attachments:
+            file_name = attachment.filename
+            file_url = attachment.url
+            await ctx.send(f'Arquivo recebido: {file_name}\nURL: {file_url}')
+            await ctx.send(f"{ctx.author.mention} seu item é: {file_name}")
+    else:
+        await ctx.send('Nenhum arquivo foi enviado.')
+
+
+bot.run(token)

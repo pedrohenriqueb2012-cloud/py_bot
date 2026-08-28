@@ -1,5 +1,4 @@
 import random
-import asyncio
 
 chamar = [
     "Ei {mention}, você foi convocado! 🔔",
@@ -24,9 +23,12 @@ help_text = (
 
 
 def gen_pass(pass_length):
+    if not isinstance(pass_length, int) or pass_length < 1:
+        raise ValueError("pass_length deve ser um inteiro maior que zero")
+
     elements = "+-/*!&$#?=@<>"
     password = ""
-    for i in range(pass_length):
+    for _ in range(pass_length):
         password += random.choice(elements)
     return password
-    
+

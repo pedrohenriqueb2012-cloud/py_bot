@@ -57,8 +57,6 @@ async def menu_historia(bot, message, historia_menu, historia_pybot):
 
         await capitulo.delete()
 
-
-
         if str(reaction.emoji) == "🧪":
 
             texto = py_bot_cap1
@@ -67,8 +65,6 @@ async def menu_historia(bot, message, historia_menu, historia_pybot):
                 await asyncio.sleep(2)
 
             await escrever_historia(message.channel, texto)
-
-
 
         elif str(reaction.emoji) == "🛡️":
 
@@ -126,36 +122,13 @@ async def menu_historia(bot, message, historia_menu, historia_pybot):
                 reaction, user = await bot.wait_for("reaction_add", check=check)
 
                 await escolha.delete()
+
                 if str(reaction.emoji) == "✅":
 
                     texto = [
                         linha.replace("{nome}", message.author.display_name)
                         for linha in py_bot_cap3['parte_2']
                     ]
-
-                    async with message.channel.typing():
-                        await asyncio.sleep(2)
-
-                    await escrever_historia(message.channel, texto)
-
-                    escolha = await message.channel.send(
-                        '🛏️ - ir para o quarto do py_bot\n'
-                        '💻 - ir para a sala de programação'
-                    )
-
-                    await escolha.add_reaction("🛏️")
-                    await escolha.add_reaction("💻")
-
-                    def check(reaction, user):
-                        return (
-                            user == message.author
-                            and reaction.message.id == escolha.id
-                        )
-
-                    reaction, user = await bot.wait_for("reaction_add", check=check)
-
-                    await escolha.delete()
-
 
                 elif str(reaction.emoji) == "❌":
                     await message.channel.send(
@@ -168,28 +141,28 @@ async def menu_historia(bot, message, historia_menu, historia_pybot):
                         for linha in py_bot_cap3['parte_2']
                     ]
 
-                    async with message.channel.typing():
-                        await asyncio.sleep(2)
+                async with message.channel.typing():
+                    await asyncio.sleep(2)
 
-                    await escrever_historia(message.channel, texto)
+                await escrever_historia(message.channel, texto)
 
-                    escolha = await message.channel.send(
-                        '🛏️ - ir para o quarto do py_bot\n'
-                        '💻 - ir para a sala de programação'
+                escolha = await message.channel.send(
+                    '🛏️ - ir para o quarto do py_bot\n'
+                    '💻 - ir para a sala de programação'
+                )
+
+                await escolha.add_reaction("🛏️")
+                await escolha.add_reaction("💻")
+
+                def check(reaction, user):
+                    return (
+                        user == message.author
+                        and reaction.message.id == escolha.id
                     )
 
-                    await escolha.add_reaction("🛏️")
-                    await escolha.add_reaction("💻")
-
-                    def check(reaction, user):
-                        return (
-                            user == message.author
-                            and reaction.message.id == escolha.id
-                        )
-
-                    reaction, user = await bot.wait_for("reaction_add", check=check)
+                reaction, user = await bot.wait_for("reaction_add", check=check)
                     
-                    await escolha.delete()
+                await escolha.delete()
 
         elif str(reaction.emoji) == "⬅️":
             await menu_historia(bot, message, historia_menu, historia_pybot)

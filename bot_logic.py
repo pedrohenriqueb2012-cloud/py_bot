@@ -17,7 +17,8 @@ help_text = (
     '"$coin" - eu jogo uma moeda para você (cara ou coroa)!!\n'
     '@[usuário] - eu chamo o usuário junto com você!\n'
     '$checkDM - eu mando uma mensagem a sua DM para testar se está funcionando!\n'
-    '$historia - começo a contar histórias!'
+    '$historia - começo a contar histórias!\n'
+    '$jogodavelha - jogo da velha contra o bot!'
 )
 
 
